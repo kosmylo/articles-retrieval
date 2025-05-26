@@ -15,6 +15,7 @@ A Docker Compose–based pipeline to collect, parse, and unify energy-related co
 
 ## 🗂 Repository Structure
 
+```text
 articles_collection
 ├── .env
 ├── .gitignore
@@ -35,6 +36,7 @@ articles_collection
     ├── gov_scraper.py
     ├── news_scraper.py
     └── wikipedia_scraper.py
+```
 
 - **`main.py`**: orchestrates all scrapers and writes to `output/*.jsonl`  
 - **`scripts/`**: modular collectors for each source  
