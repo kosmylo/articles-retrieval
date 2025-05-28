@@ -23,87 +23,73 @@ def append_records(path, records):
 def main():
     configure_logging()
     logging.info("=== Starting EU-Energy Article Collection ===")
-    
+
+    WIKI_THRESHOLD = float(os.getenv("WIKI_RELEVANCE_THRESHOLD", 1.0))
+
     RUN_WIKI  = os.getenv("RUN_WIKI", "1")  == "1"  # set to "0" to disable
     RUN_NEWS  = os.getenv("RUN_NEWS", "1")  == "1"
     RUN_ARXIV = os.getenv("RUN_ARXIV", "1") == "1"
     RUN_GOV   = os.getenv("RUN_GOV", "1")   == "1"
     logging.info(f"RUN_WIKI: {RUN_WIKI}, RUN_NEWS: {RUN_NEWS}, RUN_ARXIV: {RUN_ARXIV}, RUN_GOV: {RUN_GOV}")
 
-    # 1. All topics (same list for wiki, news, arXiv)
-    # topics = [
-    #   # Policy & Governance
-    #   "European Green Deal",
-    #   "Energy Union",
-    #   "Renewable Energy Directive",
-    #   "National Energy and Climate Plans",
-    #   "Just Transition Fund",
-    #   # Markets & Pricing
-    #   "Energy market liberalisation in the European Union",
-    #   "Electricity pricing",
-    #   "Net metering",
-    #   "Feed-in tariff",
-    #   "Wholesale electricity market",
-    #   "Capacity market",
-    #   # Renewables & Storage
-    #   "Solar photovoltaic energy",
-    #   "Wind power",
-    #   "Energy storage",
-    #   "Electric vehicle",
-    #   "Vehicle-to-grid",
-    #   "Smart grid",
-    #   "Microgrid",
-    #   # Efficiency & Buildings
-    #   "Passive house",
-    #   "Nearly zero-energy building",
-    #   "Energy Performance of Buildings Directive",
-    #   "Heat pump",
-    #   "Energy efficiency",
-    #   # Poverty & Equity
-    #   "Energy poverty",
-    #   "Just energy transition",
-    #   "Consumer rights in energy",
-    #   # Prosumer & Community
-    #   "Prosumer",
-    #   "Citizen energy community",
-    #   "Energy cooperative",
-    #   "Peer-to-peer energy",
-    #   "Demand response",
-    #   # Funding & Incentives
-    #   "Horizon Europe",
-    #   "LIFE programme",
-    #   "Energy Service Company",
-    #   "Grants for home renovation"
-    # ]
 
     # Wikipedia-optimized topics (exact/official article titles)
     wiki_topics = [
         # Policy & Governance
         "European Green Deal",
+        "Fit for 55 (European Union)", 
+        "European Climate Law",
+        "European Green Deal Industrial Plan",
+        "European Climate Pact",
+        "European Energy Security Strategy",
+        "European Union Emissions Trading System",
+        "European Climate Adaptation Strategy",
+        "European Union Renewable Energy Directive",
+        "European Union Energy Efficiency Directive",
+        "European Union Energy Performance of Buildings Directive",
+        "EU taxonomy for sustainable activities",
         "Energy Union",
         "Renewable Energy Directive (EU)",
+        "European Union National Energy and Climate Plans",
         "National Energy and Climate Plans",
         "Just Transition Fund",
         # Markets & Pricing
         "Energy market liberalization in the European Union",
+        "European Network of Transmission System Operators for Electricity (ENTSO-E)",
+        "European Network of Transmission System Operators for Gas (ENTSOG)",
+        "European Union Agency for the Cooperation of Energy Regulators (ACER)",    
+        "Electricity market in the European Union",
         "Electricity pricing",
         "Net metering",
         "Feed-in tariff",
+        "Energy market",
         "Wholesale electricity market",
         "Capacity market",
         # Renewables & Storage
         "Solar photovoltaic energy",
+        "Offshore wind power",
+        "Onshore wind power",
+        "Green hydrogen", 
+        "Hydrogen economy",
+        "European Battery Alliance",
+        "Net-Zero Industry Act", 
         "Wind power",
         "Energy storage",
         "Electric vehicle",
         "Vehicle-to-grid",
         "Smart grid",
         "Microgrid",
+        "Distributed energy resources",
+        "Demand-side management",
+        "Peer-to-peer energy trading",
+        "Electric vehicle integration",
         # Efficiency & Buildings
         "Passive house",
         "Nearly zero-energy building",
+        "European Union energy label",
         "Energy Performance of Buildings Directive",
         "Heat pump",
+        "Renovation Wave",
         "Energy efficiency",
         # Poverty & Equity
         "Energy poverty",
@@ -119,52 +105,147 @@ def main():
         "Horizon Europe",
         "LIFE programme",
         "Energy Service Company",
-        "Grants for home renovation"
+        "Grants for home renovation",
+        "Modernisation Fund",
+        "Social Climate Fund",
+        "Next Generation EU",
+        "Just Transition Mechanism" 
+    ]
+
+    eu_countries = [
+    "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus", "the Czech Republic",
+    "Denmark", "Estonia", "Finland", "France", "Germany", "Greece", "Hungary",
+    "Ireland", "Italy", "Latvia", "Lithuania", "Luxembourg", "Malta",
+    "the Netherlands", "Poland", "Portugal", "Romania", "Slovakia",
+    "Slovenia", "Spain", "Sweden"
+    ]
+
+    country_level_topics = [
+    "Energy in {}",
+    "Electricity sector in {}",
+    "Renewable energy in {}",
+    "List of power stations in {}",
+    "Wind power in {}",
+    "Solar power in {}",
+    "Hydroelectricity in {}",
+    "Geothermal power in {}",
+    "Nuclear power in {}",
+    "Coal in {}",
+    "Natural gas in {}",
+    "Climate change in {}",
+    "Energy policy of {}",
+    "Plug-in electric vehicles in {}"
+    ]
+
+    country_energy_topics = [
+    topic.format(country) for country in eu_countries for topic in country_level_topics
     ]
 
     # NewsAPI-optimized topics (short, headline-friendly keywords/phrases)
     news_topics = [
         # Policy & Governance
         "Green Deal",
+        "European Green Deal",
         "Energy Union",
         "Renewable Energy Directive",
         "National Energy and Climate Plans",
         "Just Transition Fund",
+        "EU climate policy",
+        "Fit for 55",
+        "EU emissions targets",
+        "carbon neutrality",
+        "net zero",
+        "carbon tax",
+        "climate law",
+        "emissions trading",
+
         # Markets & Pricing
         "Electricity prices",
-        "Net metering",
-        "Feed-in tariff",
-        "Energy market",
-        "Capacity market",
+        "gas prices",
+        "energy bills",
+        "rising energy bills",
+        "energy crisis",
+        "gas crisis",
+        "cost-of-living crisis",
+        "energy subsidies",
+        "energy market",
+        "capacity market",
+        "net metering",
+        "feed-in tariff",
+
         # Renewables & Storage
-        "Solar panels",
-        "Wind farms",
-        "Energy storage",
-        "Electric vehicles",
-        "Vehicle to grid",
-        "Smart grid",
-        "Microgrids",
+        "solar panels",
+        "rooftop solar",
+        "solar power",
+        "wind farms",
+        "offshore wind",
+        "energy storage",
+        "battery storage",
+        "electric vehicles",
+        "electric cars",
+        "EV charging",
+        "vehicle-to-grid",
+        "smart grid",
+        "microgrids",
+        "green hydrogen",
+        "renewable energy investment",
+        "green energy projects",
+        "energy independence",
+
         # Efficiency & Buildings
-        "Passive house",
-        "Nearly zero-energy buildings",
-        "Building performance",
-        "Heat pumps",
-        "Energy efficiency measures",
+        "energy efficiency",
+        "energy efficiency measures",
+        "energy-saving tips",
+        "passive house",
+        "nearly zero-energy buildings",
+        "building performance",
+        "home insulation",
+        "heat pumps",
+        "smart meters",
+
         # Poverty & Equity
-        "Energy poverty",
-        "Just transition",
-        "Consumer energy rights",
+        "energy poverty",
+        "fuel poverty",
+        "just transition",
+        "consumer energy rights",
+        "heating costs",
+
         # Prosumer & Community
-        "Prosumers",
-        "Citizen energy communities",
-        "Energy cooperatives",
-        "Peer-to-peer energy",
-        "Demand response program",
+        "prosumers",
+        "citizen energy communities",
+        "community energy",
+        "energy cooperatives",
+        "peer-to-peer energy",
+        "demand response",
+        "community solar",
+
         # Funding & Incentives
         "Horizon Europe",
         "LIFE programme",
         "Energy service companies",
-        "Home renovation grants"
+        "home renovation grants",
+        "solar panel grants",
+        "heat pump incentives",
+        "energy efficiency funding",
+        "renovation wave",
+
+        # Climate Impacts & Extreme Weather
+        "heatwave",
+        "drought",
+        "wildfires",
+        "floods",
+        "extreme weather",
+        "climate crisis",
+
+        # Fossil Fuels and Transition
+        "coal phase-out",
+        "fossil fuel subsidies",
+        "oil prices",
+        "natural gas shortage",
+        "Russian gas",
+        "energy security",
+        "gas imports",
+        "renewables vs fossil fuels"
     ]
 
     arxiv_topics = [
@@ -251,10 +332,19 @@ def main():
         return
 
     # -- Wikipedia --
+    RUN_WIKI_COUNTRY_ONLY = os.getenv("RUN_WIKI_COUNTRY_ONLY", "0") == "1"
+
+    if RUN_WIKI_COUNTRY_ONLY:
+        active_wiki_topics = country_energy_topics          
+        wiki_exact = True                                   
+    else:
+        active_wiki_topics = wiki_topics                    
+        wiki_exact = False
+
     if RUN_WIKI:
-        for t in wiki_topics:
+        for t in active_wiki_topics:
             try:
-                w = get_energy_articles(query=t, max_articles=mw)
+                w = get_energy_articles(query=t, max_articles=mw, threshold=WIKI_THRESHOLD, exact=wiki_exact)
                 append_records("output/wiki.jsonl", w)
                 logging.info(f"Wiki '{t}': {len(w)} articles")
             except Exception as e:
