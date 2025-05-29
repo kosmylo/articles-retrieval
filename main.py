@@ -166,12 +166,12 @@ def main():
         "rising energy bills",
         "energy crisis",
         "gas crisis",
-        "cost-of-living crisis",
+        "cost of living crisis",
         "energy subsidies",
         "energy market",
         "capacity market",
         "net metering",
-        "feed-in tariff",
+        "feed in tariff",
 
         # Renewables & Storage
         "solar panels",
@@ -184,7 +184,7 @@ def main():
         "electric vehicles",
         "electric cars",
         "EV charging",
-        "vehicle-to-grid",
+        "vehicle to grid",
         "smart grid",
         "microgrids",
         "green hydrogen",
@@ -195,9 +195,9 @@ def main():
         # Efficiency & Buildings
         "energy efficiency",
         "energy efficiency measures",
-        "energy-saving tips",
+        "energy saving tips",
         "passive house",
-        "nearly zero-energy buildings",
+        "nearly zero energy buildings",
         "building performance",
         "home insulation",
         "heat pumps",
@@ -215,7 +215,7 @@ def main():
         "citizen energy communities",
         "community energy",
         "energy cooperatives",
-        "peer-to-peer energy",
+        "peer to peer energy",
         "demand response",
         "community solar",
 
@@ -238,7 +238,7 @@ def main():
         "climate crisis",
 
         # Fossil Fuels and Transition
-        "coal phase-out",
+        "coal phase out",
         "fossil fuel subsidies",
         "oil prices",
         "natural gas shortage",
@@ -352,9 +352,10 @@ def main():
 
     # -- News --
     if RUN_NEWS:
+
         for t in news_topics:
             try:
-                n = get_energy_news(api_key=news_key, query=t, max_articles=mn)
+                n = get_energy_news(api_key=news_key, query=t, max_articles=mn, language="en", from_date="2022-01-01T00:00:00Z")
                 append_records("output/news.jsonl", n)
                 logging.info(f"News '{t}': {len(n)} articles")
             except Exception as e:
