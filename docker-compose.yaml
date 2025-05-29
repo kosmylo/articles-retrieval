@@ -11,8 +11,8 @@ services:
       - MAX_ARXIV_PAPERS=100
       - MAX_GOV_PAGES=100
       - MAX_GOV_DEPTH=5
-      - RUN_WIKI=1
-      - RUN_NEWS=0
+      - RUN_WIKI=0
+      - RUN_NEWS=1
       - RUN_ARXIV=0
       - RUN_GOV=0
       - WIKI_RELEVANCE_THRESHOLD=0.8
