@@ -8,12 +8,12 @@ services:
       - NEWS_API_KEY=${NEWS_API_KEY}
       - MAX_WIKI_ARTICLES=250
       - MAX_NEWS_ARTICLES=250
-      - MAX_ARXIV_PAPERS=100
+      - MAX_ARXIV_PAPERS=250
       - MAX_GOV_PAGES=100
       - MAX_GOV_DEPTH=5
       - RUN_WIKI=0
-      - RUN_NEWS=1
-      - RUN_ARXIV=0
+      - RUN_NEWS=0
+      - RUN_ARXIV=1
       - RUN_GOV=0
       - WIKI_RELEVANCE_THRESHOLD=0.8
       - RUN_WIKI_COUNTRY_ONLY=1
