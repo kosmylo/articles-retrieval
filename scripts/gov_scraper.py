@@ -4,10 +4,9 @@ import time
 import logging
 import tempfile
 import requests
+import fitz 
 from urllib.parse import urlparse, urljoin
 from bs4 import BeautifulSoup
-from docling.document_converter import DocumentConverter
-from docling.datamodel.base_models import InputFormat
 
 def is_english_link(url):
     if url.endswith('_en'):
@@ -100,7 +99,7 @@ def get_government_documents(start_url, max_pages=30, max_depth=3):
             })
         for i, pdf in enumerate(d["pdfs"], 1):
             try:
-                pdf_text = download_and_parse_pdf_docling(pdf)
+                pdf_text = download_and_parse_pdf_fitz(pdf)
                 docs.append({
                     "title": f"{d['title']} (PDF {i})",
                     "url": pdf,
@@ -111,15 +110,17 @@ def get_government_documents(start_url, max_pages=30, max_depth=3):
                 logging.error(f"Failed to parse PDF {pdf}")
     return docs
 
-def download_and_parse_pdf_docling(pdf_url):
-    resp = requests.get(pdf_url, timeout=10)
+def download_and_parse_pdf_fitz(pdf_url):
+    resp = requests.get(pdf_url, timeout=15)
     if resp.status_code != 200:
         raise Exception("PDF download failed")
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
         tmp.write(resp.content)
-        path = tmp.name
+        pdf_path = tmp.name
+    text = ""
     try:
-        conv = DocumentConverter(allowed_formats=[InputFormat.PDF]).convert(path)
-        return conv.document.export_to_markdown()
+        with fitz.open(pdf_path) as doc:
+            text = "\n\n".join(page.get_text("text") for page in doc)
     finally:
-        os.remove(path)
+        os.remove(pdf_path)
+    return text
