@@ -316,34 +316,42 @@ def main():
 
     # 2. EU & national gov/reg URLs
     gov_urls = [
-      "https://energy.ec.europa.eu/index_en",     # EU portal
-      "https://acer.europa.eu/",                  # ACER
-      "https://www.bmk.gv.at/en.html",            # Austria
-      "https://economie.fgov.be/en/themes/energy",# Belgium
-      "https://www.me.government.bg/en",          # Bulgaria
-      "https://meci.gov.cy",                      # Cyprus
-      "https://ens.dk/en",                        # Denmark
-      "https://www.mpo.cz/en/",                   # Czech Republic
-      "https://mkm.ee/en",                        # Estonia
-      "https://tem.fi/en/energy",                 # Finland
-      "https://www.cre.fr/en",                    # France
-      "https://www.bmwi.de/Navigation/EN/Home/home.html",  # Germany
-      "https://www.ypengreenpolicy.gr/t-en",      # Greece
-      "http://www.mekh.hu/",                      # Hungary
-      "https://www.gov.ie/en/organisation/department-of-the-environment-climate-and-communications/", # Ireland
-      "https://www.arera.it/EN/",                 # Italy
-      "https://www.sprk.gov.lv/en",               # Latvia
-      "https://enmin.lrv.lt/en/",                 # Lithuania
-      "https://meco.gouvernement.lu/en/domaines-activites/energie.html",  # Luxembourg
-      "https://www.rews.org.mt/",                 # Malta
-      "https://www.government.nl/topics/renewable-energy",              # Netherlands
-      "https://www.ure.gov.pl/en",                # Poland
-      "https://www.erse.pt/en/home/",             # Portugal
-      "https://anre.ro/",                         # Romania
-      "https://www.urso.gov.sk/",                 # Slovakia
-      "https://www.agen-rs.si/en",                # Slovenia
-      "https://www.cnmc.es/",                     # Spain
-      "https://www.energimyndigheten.se/en/"      # Sweden
+        # EU-level Institutions
+        "https://energy.ec.europa.eu/index_en",                   # EU DG Energy portal
+        "https://acer.europa.eu/",                                # Agency for Cooperation of Energy Regulators (ACER)
+        "https://ceer.eu/",                                       # Council of European Energy Regulators (CEER)
+        "https://entsoe.eu/",                                     # European Network of TSOs for Electricity (ENTSO-E)
+        "https://entsog.eu/",                                     # European Network of TSOs for Gas (ENTSO-G)
+        "https://cinea.ec.europa.eu/",                            # European Climate, Infrastructure and Environment Executive Agency (CINEA)
+        "https://cordis.europa.eu/",                              # CORDIS – EU research projects portal
+        "https://ec.europa.eu/programmes/horizon2020/",           # Horizon Europe funding program
+        "https://www.energy-community.org/",                      # Energy Community Treaty Organization
+
+        # National Energy Regulatory and Government Bodies
+        "https://www.e-control.at/en",                            # Austria (E-Control)
+        "https://www.creg.be/en",                                 # Belgium (CREG)
+        "https://www.dker.bg/en/home/",                           # Bulgaria (Energy & Water Regulatory Commission - EWRC)
+        "https://hera.hr/en/html/",                               # Croatia (Croatian Energy Regulatory Agency - HERA)
+        "https://www.cera.org.cy/en-gb/home/",                    # Cyprus (Energy Regulatory Authority - CERA)
+        "https://www.eru.cz/en/",                                 # Czech Republic (Energy Regulatory Office - ERÚ)
+        "https://www.konkurentsiamet.ee/en",                      # Estonia (Estonian Competition Authority)
+        "https://energiavirasto.fi/en/frontpage",                 # Finland (Energy Authority)
+        "https://www.cre.fr/en",                                  # France (Commission de Régulation de l'Énergie - CRE)
+        "https://www.bundesnetzagentur.de/EN/",                   # Germany (Federal Network Agency - BNetzA)
+        "https://www.rae.gr/en/",                                 # Greece (Regulatory Authority for Energy - RAE)
+        "https://www.mekh.hu/home",                               # Hungary (Energy and Public Utility Regulatory Authority - MEKH)
+        "https://www.cru.ie/",                                    # Ireland (Commission for Regulation of Utilities - CRU)
+        "https://www.arera.it/en/",                               # Italy (ARERA)
+        "https://www.sprk.gov.lv/en",                             # Latvia (Public Utilities Commission - SPRK)
+        "https://www.vert.lt/en/Pages/updates.aspx",              # Lithuania (National Energy Regulatory Council - VERT)
+        "https://web.ilr.lu/EN/",                                 # Luxembourg (Institute of Regulation - ILR)
+        "https://www.rews.org.mt/",                               # Malta (Regulator for Energy and Water Services - REWS)
+        "https://www.acm.nl/en",                                  # Netherlands (Authority for Consumers & Markets - ACM)
+        "https://www.ure.gov.pl/en",                              # Poland (Energy Regulatory Office - URE)
+        "https://www.erse.pt/en/home/",                           # Portugal (Energy Services Regulatory Authority - ERSE)
+        "https://www.urso.gov.sk/en/",                            # Slovakia (Regulatory Office for Network Industries - ÚRSO)
+        "https://www.agen-rs.si/en",                              # Slovenia (Energy Agency - AGEN-RS)
+        "https://ei.se/ei-in-english",                            # Sweden (Swedish Energy Markets Inspectorate - Ei)
     ]
 
     # env-controlled maxima

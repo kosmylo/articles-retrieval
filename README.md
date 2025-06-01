@@ -1,12 +1,12 @@
 # Articles-Retrieval
 
-A Docker Compose–based pipeline to collect, parse, and unify energy-related content from Wikipedia, NewsAPI, arXiv, and EU government sites into JSON-Lines files. Ideal for building datasets to train or fine-tune energy-domain AI models.
+A Docker Compose–based pipeline to collect, parse, and unify energy-related content from Wikipedia, News API, arXiv, and EU government sites into JSON-Lines files. Ideal for building datasets to train or fine-tune energy-domain LLM models.
 
 ## 🚀 Features
 
 - **Multi-source scraping**:  
   - Wikipedia via `wikipedia` library  
-  - News via NewsAPI with title-only and full-text fallbacks 
+  - News via gnews API with title-only and full-text fallbacks 
   - arXiv via `arxiv` Python client, pulling PDFs and extracting text with Docling  
   - EU government sites via BeautifulSoup + Docling PDF conversion  
 - **Streaming output**: appends each record to per-scraper `*.jsonl` files for immediate availability  
