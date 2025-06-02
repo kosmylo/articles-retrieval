@@ -1,12 +1,12 @@
 # Articles-Retrieval
 
-A Docker Compose–based pipeline to collect, parse, and unify energy-related content from Wikipedia, News API, arXiv, and EU government sites into JSON-Lines files. Ideal for building datasets to train or fine-tune energy-domain LLM models.
+A Docker Compose–based pipeline to collect, parse, and unify energy-related content from Wikipedia, the GNews API, arXiv, and EU government sites into JSON-Lines files. Ideal for building datasets to train or fine-tune energy-domain LLM models.
 
 ## 🚀 Features
 
 - **Multi-source scraping**:  
   - Wikipedia via `wikipedia` library  
-  - News via gnews API with title-only and full-text fallbacks 
+  - News via the `GNews` API with full article text retrieval
   - arXiv via `arxiv` Python client, converting PDFs to text with PyMuPDF
   - EU government sites via BeautifulSoup with PDF text extraction via PyMuPDF
 - **Streaming output**: appends each record to per-scraper `*.jsonl` files for immediate availability  
@@ -20,7 +20,7 @@ articles_collection
 ├── .env
 ├── .gitignore
 ├── Dockerfile
-├── README
+├── README.md
 ├── docker-compose.yaml
 ├── logs
 │   └── app.log
@@ -45,32 +45,30 @@ articles_collection
 
 ## 🔧 Prerequisites
 
-- Docker & Docker Compose installed locally 
-- (Optional) A NewsAPI key (free for development) 
-- Internet access from the VM to fetch web resources  
+- Docker & Docker Compose installed locally
+- A GNews API key from [gnews.io](https://gnews.io) (required)
+- Internet access from the VM to fetch web resources
 
 ## ⚙️ Configuration
 
-Control each scraper via environment variables in your `docker-compose.yaml`:
+Control each scraper via environment variables in your `.env`:
 
 ```yaml
-services:
-  collector:
-    environment:
-      - RUN_WIKI=1        # toggle Wikipedia scraper (1=on, 0=off)
-      - RUN_NEWS=1        # toggle NewsAPI scraper
-      - RUN_ARXIV=1       # toggle arXiv scraper
-      - RUN_GOV=1         # toggle Government scraper
-      - MAX_WIKI_ARTICLES=100
-      - MAX_NEWS_ARTICLES=100
-      - MAX_ARXIV_PAPERS=50
-      - MAX_GOV_PAGES=60
-      - MAX_GOV_DEPTH=3
+NEWS_API_KEY="API KEY"
+MAX_WIKI_ARTICLES=500
+MAX_NEWS_ARTICLES=500
+MAX_ARXIV_PAPERS=300
+MAX_GOV_PAGES=500
+MAX_GOV_DEPTH=6
+RUN_WIKI=0
+RUN_NEWS=1
+RUN_ARXIV=0
+RUN_GOV=0
+WIKI_RELEVANCE_THRESHOLD=0.8
+RUN_WIKI_COUNTRY_ONLY=0
 ```
 
-**NewsAPI** uses `qInTitle` first (tight headline matches), then falls back to `q` if no results.
-
-**Topic lists** for Wikipedia, NewsAPI, and arXiv are defined at the top of `main.py`. Adjust those arrays to refine your coverage.
+**Topic lists** for Wikipedia, news, and arXiv and **governmental/regulatory bodies URLs** are defined at the top of `main.py`. Adjust those arrays to refine your coverage.
 
 ## 📂 Output
 
@@ -103,13 +101,13 @@ Each line in these files is a standalone JSON object:
    docker build -t articles-collector .
    ```
 
-2. **Run with Docker Compose** and pass your `NEWS_API_KEY`:
+2. **Run the service** using Docker Compose. Define your `NEWS_API_KEY` and any scraper flags in a `.env` file (see above), then start the container:
 
    ```bash
-   NEWS_API_KEY=YOUR_KEY docker-compose up
+   docker-compose up
    ```
 
-   All scraper settings (`RUN_WIKI`, `RUN_NEWS`, etc.) can be overridden in the `docker-compose.yaml` or via environment variables on the command line.
+   All scraper settings can be customized via environment variables in `.env`.
 
 3. **Stop the service** when finished:
 
@@ -118,5 +116,3 @@ Each line in these files is a standalone JSON object:
    ```
 
 The scraped records are written to `output/*.jsonl`. 
-
-Topic arrays for Wikipedia, NewsAPI, and arXiv live near the top of `main.py`. Modify those lists to change what the collectors search for.
