@@ -7,8 +7,8 @@ A Docker Compose–based pipeline to collect, parse, and unify energy-related co
 - **Multi-source scraping**:  
   - Wikipedia via `wikipedia` library  
   - News via gnews API with title-only and full-text fallbacks 
-  - arXiv via `arxiv` Python client, pulling PDFs and extracting text with Docling  
-  - EU government sites via BeautifulSoup + Docling PDF conversion  
+  - arXiv via `arxiv` Python client, converting PDFs to text with PyMuPDF
+  - EU government sites via BeautifulSoup with PDF text extraction via PyMuPDF
 - **Streaming output**: appends each record to per-scraper `*.jsonl` files for immediate availability  
 - **Per-scraper toggles**: enable/disable any collector with environment flags (`RUN_WIKI`, `RUN_NEWS`, `RUN_ARXIV`, `RUN_GOV`)  
 - **Robust logging**: combined console + file logging (`logs/app.log`) with INFO-level tracing and warnings  
@@ -94,3 +94,29 @@ Each line in these files is a standalone JSON object:
   "content": "..." 
 }
 ```
+
+## 🐳 Build & Run
+
+1. **Build the image** (run from the repository root):
+
+   ```bash
+   docker build -t articles-collector .
+   ```
+
+2. **Run with Docker Compose** and pass your `NEWS_API_KEY`:
+
+   ```bash
+   NEWS_API_KEY=YOUR_KEY docker-compose up
+   ```
+
+   All scraper settings (`RUN_WIKI`, `RUN_NEWS`, etc.) can be overridden in the `docker-compose.yaml` or via environment variables on the command line.
+
+3. **Stop the service** when finished:
+
+   ```bash
+   docker-compose down
+   ```
+
+The scraped records are written to `output/*.jsonl`. 
+
+Topic arrays for Wikipedia, NewsAPI, and arXiv live near the top of `main.py`. Modify those lists to change what the collectors search for.
