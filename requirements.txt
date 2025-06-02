@@ -3,7 +3,6 @@ requests>=2.25.1
 newspaper3k>=0.2.8
 arxiv>=1.4.6
 beautifulsoup4>=4.9.3
-docling
 lxml
 lxml_html_clean>=0.2.1
 PyMuPDF
