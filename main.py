@@ -316,6 +316,7 @@ def main():
 
     # 2. EU & national gov/reg URLs
     gov_urls = [
+
         # EU-level Institutions
         "https://energy.ec.europa.eu/index_en",                   # EU DG Energy portal
         "https://acer.europa.eu/",                                # Agency for Cooperation of Energy Regulators (ACER)
@@ -325,7 +326,18 @@ def main():
         "https://cinea.ec.europa.eu/",                            # European Climate, Infrastructure and Environment Executive Agency (CINEA)
         "https://cordis.europa.eu/",                              # CORDIS – EU research projects portal
         "https://ec.europa.eu/programmes/horizon2020/",           # Horizon Europe funding program
+        "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en"
         "https://www.energy-community.org/",                      # Energy Community Treaty Organization
+        "https://cinea.ec.europa.eu/connecting-europe-facility/energy_en",  # Connecting Europe Facility – Energy
+        "https://cinea.ec.europa.eu/programmes/innovation-fund_en",     # EU Innovation Fund
+        "https://cinea.ec.europa.eu/programmes/life_en",                # LIFE Programme
+        "https://www.eib.org/en/projects/sectors/energy/index.htm",     # EIB – Energy projects
+        "https://www.iea.org/regions/europe",
+        "https://www.eurelectric.org/",
+        "https://energy.ec.europa.eu/topics/infrastructure/high-level-groups/north-seas-energy-cooperation_en",
+        "https://fedarene.org/",
+        "https://enr-network.org/",
+        "https://eudsoentity.eu",
 
         # National Energy Regulatory and Government Bodies
         "https://www.e-control.at/en",                            # Austria (E-Control)
@@ -352,6 +364,95 @@ def main():
         "https://www.urso.gov.sk/en/",                            # Slovakia (Regulatory Office for Network Industries - ÚRSO)
         "https://www.agen-rs.si/en",                              # Slovenia (Energy Agency - AGEN-RS)
         "https://ei.se/ei-in-english",                            # Sweden (Swedish Energy Markets Inspectorate - Ei)
+        # Austria
+        "https://www.apg.at/en",
+        "https://www.bmimi.gv.at/en.html",
+        # Belgium
+        "https://www.elia.be/en",
+        "https://economie.fgov.be/en",
+        # Bulgaria
+        "https://www.eso.bg/index.php?en",
+        "https://www.me.government.bg/en",
+        # Croatia
+        "https://www.hops.hr/en",
+        # Cyprus
+        "https://www.eac.com.cy/EN",
+        "https://www.gov.cy/meci/en/",
+        # Czech Republic
+        "https://www.ceps.cz/en",
+        "https://mpo.gov.cz/en",
+        # Denmark
+        "https://en.energinet.dk",
+        "https://ens.dk/en",
+        # Estonia
+        "https://elering.ee/en",
+        "https://kliimaministeerium.ee/en",
+        # Finland
+        "https://www.fingrid.fi/en",
+        "https://tem.fi/en",
+        # France
+        "https://www.rte-france.com/en/home",
+        "https://www.ecologie.gouv.fr/en",
+        # Germany
+        "https://www.tennet.eu",
+        "https://www.amprion.net/index-2.html",
+        "https://www.50hertz.com/en/",
+        "https://www.transnetbw.de/en",
+        "https://www.bmwk.de/Navigation/EN/Home/home.html",
+        # Greece
+        "https://www.admie.gr/en",
+        "https://deddie.gr/en",
+        "https://www.ypen.gov.gr",
+        # Hungary
+        "https://www.mavir.hu/web/mavir-en",
+        # Ireland
+        "https://www.eirgrid.com",
+        "https://esbnetworks.ie",
+        "https://www.gov.ie/decc/",
+        # Italy
+        "https://www.terna.it/en",
+        # Latvia
+        "https://www.ast.lv/en",
+        "https://www.em.gov.lv/en",
+        # Lithuania
+        "https://www.litgrid.eu/index.php?lang=2",
+        "https://enmin.lrv.lt/en",
+        # Luxembourg
+        "https://www.creos-net.lu/en/homepage",
+        "https://meco.gouvernement.lu/en/domaines-activites/energie.html",
+        # Malta
+        "https://www.enemalta.com.mt",
+        "https://sustainability.gov.mt",
+        # Netherlands
+        "https://www.tennet.eu",
+        "https://www.government.nl/ministries/ministry-of-economic-affairs",
+        # Poland
+        "https://www.pse.pl/web/pse-eng",
+        "https://www.gov.pl/web/climate",
+        # Portugal
+        "https://www.ren.pt/en-GB",
+        "https://www.portugal.gov.pt/en/gc24",
+        # Romania
+        "https://www.transelectrica.ro/en/web/tel/home",
+        # Slovakia
+        "https://www.sepsas.sk/en",
+        "https://www.economy.gov.sk/en",
+        # Slovenia
+        "https://www.eles.si/en/",
+        "https://www.gov.si/en/ministries/ministry-of-the-environment-climate-and-energy",
+        # Spain
+        "https://www.ree.es/en",
+
+        # Market Operators & Exchanges
+        "https://www.eex.com/en",                                     # European Energy Exchange
+        "https://www.epexspot.com/en",                                # EPEX SPOT
+        "https://www.mercatoelettrico.org/En/Default.aspx",           # GME (Italy)
+        "https://www.nordpoolgroup.com",                              # Nord Pool
+        "https://www.omie.es/en",                                     # OMIE (Spain/Portugal)
+        "https://www.enexgroup.gr/web/guest/home",                    # EnExGroup (Greece)
+        # Denmark public–private climate portal
+        "https://stateofgreen.com/en",
+
     ]
 
     # env-controlled maxima
