@@ -337,6 +337,15 @@ def main():
         "https://energy.ec.europa.eu/topics/infrastructure/high-level-groups/north-seas-energy-cooperation_en",
         "https://fedarene.org/",
         "https://enr-network.org/",
+        "https://www.irena.org/",
+        "https://unece.org/",
+        "https://www.worldenergy.org/",
+        "https://www.odyssee-mure.eu/",
+        "https://setis.ec.europa.eu/index_en",
+        "https://bridge-smart-grid-storage-systems-digital-projects.ec.europa.eu/",
+        "https://www.ren21.net/",
+        "https://www.cleanenergyministerial.org/",
+        "https://www.ief.org/",
         "https://eudsoentity.eu",
 
         # National Energy Regulatory and Government Bodies
