@@ -58,7 +58,7 @@ def main():
         "EU Carbon Border Adjustment Mechanism",
         "European Climate, Infrastructure and Environment Executive Agency",
         "European Environment Agency",
-        "European Energy Exchange"
+        "European Energy Exchange",
         "Renewable Energy Directive (EU)",
         "European Union National Energy and Climate Plans",
         "National Energy and Climate Plans",
@@ -455,7 +455,7 @@ def main():
         "https://cinea.ec.europa.eu/",                            # European Climate, Infrastructure and Environment Executive Agency (CINEA)
         "https://cordis.europa.eu/",                              # CORDIS – EU research projects portal
         "https://ec.europa.eu/programmes/horizon2020/",           # Horizon Europe funding program
-        "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en"
+        "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en",
         "https://www.energy-community.org/",                      # Energy Community Treaty Organization
         "https://cinea.ec.europa.eu/connecting-europe-facility/energy_en",  # Connecting Europe Facility – Energy
         "https://cinea.ec.europa.eu/programmes/innovation-fund_en",     # EU Innovation Fund
