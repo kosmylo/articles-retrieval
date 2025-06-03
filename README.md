@@ -68,6 +68,20 @@ WIKI_RELEVANCE_THRESHOLD=0.8
 RUN_WIKI_COUNTRY_ONLY=0
 ```
 
+Create the `.env` file in the repository root with:
+
+```bash
+touch .env
+```
+
+Then place your `NEWS_API_KEY` and the other flags in this file.
+
+Open the file with a text editor to add your values, for example:
+
+```bash
+nano .env
+```
+
 **Topic lists** for Wikipedia, news, and arXiv and **governmental/regulatory bodies URLs** are defined at the top of `main.py`. Adjust those arrays to refine your coverage.
 
 ## 📂 Output
