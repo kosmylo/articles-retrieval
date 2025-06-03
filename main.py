@@ -315,8 +315,9 @@ def main():
         "Russian gas",
         "energy security",
         "gas imports",
-        "renewables vs fossil fuels"
+        "renewables vs fossil fuels",
 
+        # International & Global Context
         "Paris Agreement",
         "UN climate summit",
         "Climate change",
