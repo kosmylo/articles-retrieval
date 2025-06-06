@@ -6,3 +6,5 @@ beautifulsoup4>=4.9.3
 lxml
 lxml_html_clean>=0.2.1
 PyMuPDF
+pandas
+langdetect
