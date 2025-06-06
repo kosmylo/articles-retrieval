@@ -1,10 +1,12 @@
 import os
 import json
 import logging
+from pathlib import Path
 from scripts.wikipedia_scraper import get_energy_articles
 from scripts.news_scraper import get_energy_news
 from scripts.arxiv_scraper import search_arxiv_papers
 from scripts.gov_scraper import get_government_documents
+from scripts.preprocessing import preprocess_jsonl_file
 
 def configure_logging():
     logging.basicConfig(level=logging.INFO,
@@ -32,6 +34,8 @@ def main():
     RUN_GOV   = os.getenv("RUN_GOV", "1")   == "1"
     logging.info(f"RUN_WIKI: {RUN_WIKI}, RUN_NEWS: {RUN_NEWS}, RUN_ARXIV: {RUN_ARXIV}, RUN_GOV: {RUN_GOV}")
 
+    RUN_PREPROCESSING = os.getenv("RUN_PREPROCESSING", "1") == "1"
+    logging.info(f"RUN_PREPROCESSING: {RUN_PREPROCESSING}")
 
     # Wikipedia-optimized topics (exact/official article titles)
     wiki_topics = [
@@ -657,6 +661,25 @@ def main():
                 logging.error(f"Gov '{url}' failed: {e}")
 
     logging.info("=== Collection complete. Check output/*.jsonl for results. ===")
+
+    # --- Preprocessing Step ---
+    if RUN_PREPROCESSING:
+        logging.info("=== Starting Preprocessing of collected data ===")
+        sources = ["wiki.jsonl", "news.jsonl", "arxiv.jsonl", "gov.jsonl"]
+        input_dir = Path("output")
+        output_dir = Path("output/processed")
+        output_dir.mkdir(exist_ok=True, parents=True)
+
+        for source in sources:
+            input_file = input_dir / source
+            output_file = output_dir / source
+            try:
+                preprocess_jsonl_file(input_file, output_file)
+                logging.info(f"Preprocessed '{source}' successfully.")
+            except Exception as e:
+                logging.error(f"Preprocessing '{source}' failed: {e}")
+
+    logging.info("=== Preprocessing complete. Check output/processed/*.jsonl for results. ===")
     
 if __name__ == "__main__":
     main()
