@@ -11,9 +11,10 @@ A Docker Compose–based pipeline to **collect, parse, preprocess, and unify** e
   - EU government sites via BeautifulSoup with PDF text extraction via PyMuPDF
 
 - **Data preprocessing pipeline**:
+  - HTML content cleanup and normalization using BeautifulSoup
   - Title-based deduplication to remove redundant articles
   - Language filtering (English-only) via `langdetect`
-  - HTML content cleanup and normalization using BeautifulSoup
+  - Filtering out corrupted text based on non-printable characters
   - Detailed logging showing number of articles removed per preprocessing step
 
 - **Streaming output**: appends each record to per-scraper `*.jsonl` files for immediate availability  
@@ -155,4 +156,4 @@ Each line in these files is a standalone JSON object:
    docker-compose down
    ```
 
-All records (raw and processed) appear under output/.
+The raw and preprocessed records will be saved in the output/ and output/processed/ directories, respectively.
