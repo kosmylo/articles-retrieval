@@ -36,10 +36,11 @@ def preprocess_jsonl_file(input_path: Path, output_path: Path):
     final_count = 0
 
     seen_titles = set()
-    temp_records = []
 
-    # Step 1: Replace HTML with plain text and collect records
-    with input_path.open("r", encoding="utf-8") as fin:
+    # Combined steps (HTML stripping, deduplication, language, corruption check)
+    with input_path.open("r", encoding="utf-8") as fin, \
+         output_path.open("w", encoding="utf-8") as fout:
+
         for line in fin:
             original_count += 1
             try:
@@ -48,48 +49,30 @@ def preprocess_jsonl_file(input_path: Path, output_path: Path):
                 continue
 
             title = obj.get("title", "").strip()
-            content = obj.get("content", "").strip()
-            obj["content"] = strip_html(content)
-            
-            temp_records.append(obj)
+            if not title or title in seen_titles:
+                dedup_removed += 1
+                continue
+            seen_titles.add(title)
 
-            if original_count % 10000 == 0:
-                logging.info(f"HTML stripped from {original_count} lines...")
+            content = strip_html(obj.get("content", "").strip())
 
-    # Step 2: Remove duplicates based on title
-    unique_records = []
-    for obj in temp_records:
-        title = obj.get("title", "").strip()
-        if not title or title in seen_titles:
-            dedup_removed += 1
-            continue
-        seen_titles.add(title)
-        unique_records.append(obj)
+            if len(content) >= 50 and not is_english(content):
+                lang_removed += 1
+                continue
 
-    logging.info(f"Deduplication removed {dedup_removed} articles from {input_path.name}")
-
-    # Step 3: Check language based on content
-    lang_filtered_records = []
-    for obj in unique_records:
-        content = obj["content"]
-        if len(content) < 50 or is_english(content):
-            lang_filtered_records.append(obj)
-        else:
-            lang_removed += 1
-
-    logging.info(f"Language filtering removed {lang_removed} articles from {input_path.name}")
-
-    # Step 4: Remove corrupted content lines
-    with output_path.open("w", encoding="utf-8") as fout:
-        for obj in lang_filtered_records:
-            content = obj["content"]
             if is_text_corrupted(content):
                 corruption_removed += 1
                 continue
+
+            obj["content"] = content
             json.dump(obj, fout, ensure_ascii=False)
             fout.write("\n")
             final_count += 1
 
-    # Logging final stats
+            if original_count % 10000 == 0:
+                logging.info(f"Processed {original_count} lines from {input_path.name}...")
+
+    logging.info(f"Deduplication removed {dedup_removed} articles from {input_path.name}")
+    logging.info(f"Language filtering removed {lang_removed} articles from {input_path.name}")
     logging.info(f"Corruption filtering removed {corruption_removed} articles from {input_path.name}")
     logging.info(f"Processed {input_path.name}: {original_count} -> {final_count} articles")
