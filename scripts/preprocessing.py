@@ -33,7 +33,7 @@ def is_text_corrupted(text, threshold=0.3):
 def preprocess_jsonl_file(input_path: Path, output_path: Path):
     original_count = dedup_removed = lang_removed = corruption_removed = final_count = 0
 
-    # Temporary SQLite database for deduplication
+    # Temporary SQLite database for deduplication (titles only)
     with tempfile.NamedTemporaryFile() as temp_db_file:
         conn = sqlite3.connect(temp_db_file.name)
         cursor = conn.cursor()
@@ -50,26 +50,31 @@ def preprocess_jsonl_file(input_path: Path, output_path: Path):
                     continue
 
                 title = obj.get("title", "").strip()
-                content = strip_html(obj.get("content", "").strip())
-
-                # Deduplication check using SQLite
                 if not title:
                     dedup_removed += 1
                     continue
+
+                # Deduplication check via SQLite
                 try:
                     cursor.execute("INSERT INTO titles (title) VALUES (?)", (title,))
                 except sqlite3.IntegrityError:
                     dedup_removed += 1
                     continue
 
+                # Immediately strip HTML
+                content = strip_html(obj.get("content", "").strip())
+
+                # Language filtering (without loading heavy data)
                 if len(content) >= 50 and not is_english(content):
                     lang_removed += 1
                     continue
 
+                # Corruption filtering
                 if is_text_corrupted(content):
                     corruption_removed += 1
                     continue
 
+                # Write immediately after passing all filters
                 obj["content"] = content
                 json.dump(obj, fout, ensure_ascii=False)
                 fout.write("\n")
@@ -78,7 +83,8 @@ def preprocess_jsonl_file(input_path: Path, output_path: Path):
                 if original_count % 10000 == 0:
                     logging.info(f"Processed {original_count} lines from {input_path.name}...")
 
-        conn.close()
+            conn.commit()
+            conn.close()
 
     logging.info(f"Deduplication removed {dedup_removed} articles from {input_path.name}")
     logging.info(f"Language filtering removed {lang_removed} articles from {input_path.name}")
