@@ -54,8 +54,16 @@ def preprocess_jsonl_file(input_path: Path, output_path: Path):
                 continue
             seen_titles.add(title)
 
-            content = strip_html(obj.get("content", "").strip())
+            raw = obj.get("content", "").strip()
+            # 1) drop PDF‐gibberish *before* any BeautifulSoup pass
+            if is_text_corrupted(raw):
+                corruption_removed += 1
+                continue
 
+            # 2) now do the expensive HTML strip
+            content = strip_html(raw)
+
+            # 3) language filter
             if len(content) >= 50 and not is_english(content):
                 lang_removed += 1
                 continue
