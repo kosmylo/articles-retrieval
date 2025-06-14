@@ -156,4 +156,4 @@ Each line in these files is a standalone JSON object:
    docker-compose down
    ```
 
-The raw and preprocessed records will be saved in the output/ and output/processed/ directories, respectively.
+The raw and preprocessed records will be saved in the `output/` and `output/processed/` directories, respectively.
